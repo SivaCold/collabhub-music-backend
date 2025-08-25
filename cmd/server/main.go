@@ -1,3 +1,24 @@
+// @title CollabHub Music API
+// @version 1.0.0
+// @description A collaborative platform for musicians with GitLab-like versioning system for music projects
+// @termsOfService https://collabhub-music.com/terms
+
+// @contact.name CollabHub Music Support
+// @contact.url https://collabhub-music.com/support
+// @contact.email support@collabhub-music.com
+
+// @license.name MIT
+// @license.url https://opensource.org/licenses/MIT
+
+// @host localhost:8444
+// @BasePath /api/v1
+
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
+// @description Type "Bearer" followed by a space and JWT token.
+
+
 package main
 
 import (
@@ -19,6 +40,8 @@ import (
 
     "github.com/gin-gonic/gin"
     "github.com/joho/godotenv"
+    swaggerFiles "github.com/swaggo/files"
+    ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func main() {
@@ -87,6 +110,8 @@ func main() {
     r.Use(middleware.LoggerMiddleware())
     r.Use(gin.Recovery())
     r.Use(middleware.CORSMiddleware())
+
+    r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
     // Public routes
     public := r.Group("/api/v1")

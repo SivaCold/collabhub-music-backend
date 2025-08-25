@@ -18,7 +18,19 @@ func NewUserHandler(userService *services.UserService) *UserHandler {
     return &UserHandler{userService: userService}
 }
 
-// RegisterUser handles user registration
+
+// RegisterUser godoc
+// @Summary Register a new user
+// @Description Register a new user account with Keycloak integration
+// @Tags Authentication
+// @Accept json
+// @Produce json
+// @Param user body models.UserRegistrationRequest true "User registration data"
+// @Success 201 {object} models.APIResponse{data=models.User} "User created successfully"
+// @Failure 400 {object} models.APIError "Bad request"
+// @Failure 409 {object} models.APIError "User already exists"
+// @Failure 500 {object} models.APIError "Internal server error"
+// @Router /users/register [post]
 func (h *UserHandler) RegisterUser(c *gin.Context) {
     var user models.User
     if err := c.ShouldBindJSON(&user); err != nil {
@@ -55,7 +67,20 @@ func (h *UserHandler) RegisterUser(c *gin.Context) {
     c.JSON(http.StatusCreated, response)
 }
 
-// UpdateUserProfile handles updating user profile
+// UpdateUserProfile godoc
+// @Summary Update current user profile
+// @Description Update the profile of the currently authenticated user
+// @Tags Users
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param user body models.UserUpdateRequest true "User update data"
+// @Success 200 {object} models.APIResponse{data=models.User} "User updated successfully"
+// @Failure 400 {object} models.APIError "Bad request"
+// @Failure 401 {object} models.APIError "Unauthorized"
+// @Failure 404 {object} models.APIError "User not found"
+// @Failure 500 {object} models.APIError "Internal server error"
+// @Router /users/me [put]
 func (h *UserHandler) UpdateUserProfile(c *gin.Context) {
     userIDParam := c.Param("id")
     userID, err := uuid.Parse(userIDParam)
