@@ -1,55 +1,49 @@
 package utils
 
-import (
-	"net/http"
-
-	"github.com/gin-gonic/gin"
-)
-
-// ResponseData represents a standard API response structure
-type ResponseData struct {
-	Success bool        `json:"success"`
-	Message string      `json:"message"`
-	Data    interface{} `json:"data,omitempty"`
-	Error   string      `json:"error,omitempty"`
+// APIResponse represents a successful API response
+type APIResponse struct {
+    Status  string      `json:"status" example:"success"`
+    Data    interface{} `json:"data"`
+    Message string      `json:"message,omitempty"`
 }
 
-// SuccessResponse sends a successful JSON response
-func SuccessResponse(c *gin.Context, statusCode int, message string, data interface{}) {
-	c.JSON(statusCode, ResponseData{
-		Success: true,
-		Message: message,
-		Data:    data,
-	})
+// APIError represents an error API response
+type APIError struct {
+    Status  string `json:"status" example:"error"`
+    Error   string `json:"error" example:"Something went wrong"`
+    Code    int    `json:"code,omitempty" example:"400"`
 }
 
-// ErrorResponse sends an error JSON response
-func ErrorResponse(c *gin.Context, statusCode int, message string, err error) {
-	errorMsg := ""
-	if err != nil {
-		errorMsg = err.Error()
-	}
-
-	c.JSON(statusCode, ResponseData{
-		Success: false,
-		Message: message,
-		Error:   errorMsg,
-	})
+// SuccessResponse creates a success response
+func SuccessResponse(data interface{}) APIResponse {
+    return APIResponse{
+        Status: "success",
+        Data:   data,
+    }
 }
 
-// ValidationErrorResponse sends a validation error response
-func ValidationErrorResponse(c *gin.Context, message string, validationErrors interface{}) {
-	c.JSON(http.StatusBadRequest, gin.H{
-		"success": false,
-		"message": message,
-		"errors":  validationErrors,
-	})
+// SuccessResponseWithMessage creates a success response with message
+func SuccessResponseWithMessage(data interface{}, message string) APIResponse {
+    return APIResponse{
+        Status:  "success",
+        Data:    data,
+        Message: message,
+    }
 }
 
-// ParseJSON parses JSON request body into the given struct
-func ParseJSON(c *gin.Context, v interface{}) error {
-	if err := c.ShouldBindJSON(v); err != nil {
-		return err
-	}
-	return nil
+// ErrorResponse creates an error response
+func ErrorResponse(message string) APIError {
+    return APIError{
+        Status: "error",
+        Error:  message,
+    }
+}
+
+// ErrorResponseWithCode creates an error response with status code
+func ErrorResponseWithCode(message string, code int) APIError {
+    return APIError{
+        Status: "error",
+        Error:  message,
+        Code:   code,
+    }
 }
