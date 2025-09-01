@@ -20,7 +20,7 @@ func Logger() gin.HandlerFunc {
 			"latency":    param.Latency,
 			"user_agent": param.Request.UserAgent(),
 		}).Info("API Request")
-		
+
 		return ""
 	})
 }

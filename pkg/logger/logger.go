@@ -11,13 +11,13 @@ var Logger *logrus.Logger
 
 func init() {
 	Logger = logrus.New()
-	
+
 	// Set output to stdout
 	Logger.SetOutput(os.Stdout)
-	
+
 	// Set default log level
 	Logger.SetLevel(logrus.InfoLevel)
-	
+
 	// Use JSON formatter for structured logging
 	Logger.SetFormatter(&logrus.JSONFormatter{})
 }
@@ -25,7 +25,7 @@ func init() {
 // NewLogger creates a new logger instance with custom configuration
 func NewLogger() *logrus.Logger {
 	logger := logrus.New()
-	
+
 	// Configure based on environment
 	env := os.Getenv("SERVER_ENV")
 	if env == "production" {
@@ -38,7 +38,7 @@ func NewLogger() *logrus.Logger {
 			ForceColors:   true,
 		})
 	}
-	
+
 	return logger
 }
 

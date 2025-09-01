@@ -28,7 +28,7 @@ func main() {
 		// Health check
 		api.GET("/health", func(c *gin.Context) {
 			c.JSON(200, gin.H{
-				"status": "ok",
+				"status":  "ok",
 				"message": "CollabHub Music Backend is running",
 			})
 		})
