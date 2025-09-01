@@ -1,60 +1,190 @@
-# Créez le fichier .gitignore
-echo "# Binaries
+# ===========================================
+# Go Gitignore
+# ===========================================
+
+# Binaries for programs and plugins
 *.exe
 *.exe~
 *.dll
 *.so
 *.dylib
-main
 
-# Test binary
+# Test binary, built with `go test -c`
 *.test
 
-# Output of the go coverage tool
+# Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 
-# Dependency directories
-vendor/
-
-# Environment files
-.env
-.env.*
-!.env.example
-
-# IDE files
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# SSL certificates
-*.pem
-*.crt
-*.key
-certs/
-
-# Logs
-*.log
-logs/
-
-# Database
-*.db
-*.sqlite
-
-# Temporary files
-tmp/
-temp/
-
-# Build artifacts
-dist/
-build/
-
-# Docker
-docker-compose.override.yml
+# Dependency directories (remove the comment below to include it)
+# vendor/
 
 # Go workspace file
-go.work" > .gitignore
+go.work
+
+# ===========================================
+# Project Specific
+# ===========================================
+
+# Compiled binary
+main
+tmp/
+bin/
+build/
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+*.env
+
+# Certificates
+certs/*.crt
+certs/*.key
+certs/*.pem
+!certs/.gitkeep
+
+# Logs
+logs/
+*.log
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Storage directories
+storage/
+uploads/
+files/
+
+# Test coverage
+coverage.out
+coverage.html
+*.coverprofile
+
+# Documentation generated files
+docs/swagger.json
+docs/swagger.yaml
+
+# ===========================================
+# IDE and Editor Files
+# ===========================================
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# IntelliJ IDEA / GoLand
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# ===========================================
+# Operating System Files
+# ===========================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ===========================================
+# Docker and Development Tools
+# ===========================================
+
+# Docker volumes
+docker-volumes/
+.docker/
+docker-compose.override.yml
+
+# Air (hot reload) temporary files
+tmp/
+*.tmp
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+
+# Kubernetes
+*.kubeconfig
+
+# ===========================================
+# Node.js (for any frontend tooling)
+# ===========================================
+
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn-integrity
+
+# ===========================================
+# Archive Files
+# ===========================================
+
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.7z

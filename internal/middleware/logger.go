@@ -1,29 +1,26 @@
 package middleware
 
 import (
-    "time"
+	"time"
 
-    "github.com/gin-gonic/gin"
-    "github.com/sirupsen/logrus"
+	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 )
 
-// LoggerMiddleware returns a gin.HandlerFunc for logging
-func LoggerMiddleware() gin.HandlerFunc {
-    return func(c *gin.Context) {
-        startTime := time.Now()
-        
-        c.Next()
-        
-        endTime := time.Now()
-        latency := endTime.Sub(startTime)
-        
-        logrus.WithFields(logrus.Fields{
-            "status":     c.Writer.Status(),
-            "method":     c.Request.Method,
-            "path":       c.Request.URL.Path,
-            "ip":         c.ClientIP(),
-            "latency":    latency,
-            "user_agent": c.Request.UserAgent(),
-        }).Info("HTTP Request")
-    }
+// Logger middleware for request logging using logrus
+func Logger() gin.HandlerFunc {
+	return gin.LoggerWithFormatter(func(param gin.LogFormatterParams) string {
+		logrus.WithFields(logrus.Fields{
+			"client_ip":  param.ClientIP,
+			"timestamp":  param.TimeStamp.Format(time.RFC3339),
+			"method":     param.Method,
+			"path":       param.Path,
+			"protocol":   param.Request.Proto,
+			"status":     param.StatusCode,
+			"latency":    param.Latency,
+			"user_agent": param.Request.UserAgent(),
+		}).Info("API Request")
+		
+		return ""
+	})
 }
