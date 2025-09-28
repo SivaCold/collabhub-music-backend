@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
 const fs = require('fs');
+const fsPromises = require('fs/promises');
 
 let mainWindow;
 
@@ -41,4 +42,20 @@ ipcMain.handle('move-video', async (event, { filePath, targetDir }) => {
   const destPath = path.join(targetDir, fileName);
   fs.renameSync(filePath, destPath);
   return destPath;
+});
+
+ipcMain.handle('ensure-dir', async (event, dirPath) => {
+  try {
+    await fsPromises.mkdir(dirPath, { recursive: true });
+    return true;
+  } catch (e) {
+    return false;
+  }
+});
+
+ipcMain.handle('list-dirs', async (event, folderPath) => {
+  if (!folderPath) return [];
+  return fs.readdirSync(folderPath).filter(f =>
+    fs.statSync(path.join(folderPath, f)).isDirectory()
+  );
 });
